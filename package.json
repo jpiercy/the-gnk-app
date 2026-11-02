@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "types:update": "supabase gen types typescript --project-id \"ebdqtknczqgmykuyddff\" > types/supabase.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ."
@@ -13,6 +14,9 @@
     "@radix-ui/react-slot": "^1.2.2",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@tanstack/match-sorter-utils": "^9.2.6",
+    "@tanstack/react-pacer": "^0.24.1",
+    "@tanstack/react-table": "^9.3.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.511.0",
@@ -31,6 +35,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "postcss": "^8",
+    "supabase": "^2.117.0",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
