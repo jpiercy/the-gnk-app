@@ -61,7 +61,7 @@ export type NewEntry = {
 };
 
 export async function createEntry(newEntry: NewEntry) {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     await supabase
     .from("entries")
@@ -70,4 +70,37 @@ export async function createEntry(newEntry: NewEntry) {
       book_id: newEntry.bookId,
       entered_for_book_club_event_id: newEntry.enteredForBookClubEventId,
     });
+}
+
+export type AssignEntryForEventProps = {
+  eventId: string,
+  entryId: string,
+  bookId: string,
+};
+
+export async function assignEntryForEvent(props: AssignEntryForEventProps) {
+    const supabase = createClient();
+
+    const { data, error } = await supabase.rpc('select_entry_for_event', {
+      p_event_id: props.eventId,
+      p_entry_id: props.entryId,
+      p_book_id: props.bookId,
+    });
+
+    if (error) {
+      console.log('Error saving selection for event.')
+    }
+    // await supabase
+    // .from("entries")
+    // .update({
+    //   selected_in_book_club_event_id: props.eventId
+    // })
+    // .eq('id', props.entryId);
+
+    // await supabase
+    // .from("book_club_events")
+    // .update({
+    //   selected_from_entry_id: props.entryId
+    // })
+    // .eq('id', props.eventId);
 }

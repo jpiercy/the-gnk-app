@@ -13,7 +13,7 @@ export default function EntryForm({ initialSavedBooks, profileId, eventId, onSav
   const [isSaving, setIsSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleBookSelection = (book: OpenLibraryBook, isAlreadySaved: boolean) => {
+  const handleBookEntry = (book: OpenLibraryBook, isAlreadySaved: boolean) => {
     setSelectedSelection(book);
     setIsDuplicate(isAlreadySaved);
     setStatusMessage(null);
@@ -45,7 +45,7 @@ export default function EntryForm({ initialSavedBooks, profileId, eventId, onSav
     <div className="space-y-6">
       <BookSelector 
         initialSavedBooks={savedBooks} 
-        onBookSelect={handleBookSelection} 
+        onBookSelect={handleBookEntry} 
       />
 
       {statusMessage && (
