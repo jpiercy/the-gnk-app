@@ -29,15 +29,17 @@ export const EVENT_DETAILS_QUERY = `
 const baseQuery = staticSupabase.from('book_club_events').select(EVENT_DETAILS_QUERY);
 type RawEventList = QueryData<typeof baseQuery>;
 
-// 2. A clean, generic type helper to strip arrays from your 1:1 nested targets
-type Unpack<T> = T extends Array<infer U> ? U : T;
+type Unpack<T> = NonNullable<T> extends Array<infer U> ? NonNullable<U> : NonNullable<T>;
 
 // 3. Export your clean types for your other Next.js components to use
+type RawEntry = Unpack<RawEventList[number]['selected_from_entry']>;
+type RawBook = Unpack<RawEntry['book']>;
+
 export type EventDetailsItem = Omit<RawEventList[number], 'selected_from_entry'> & {
-  selected_from_entry: (Omit<Unpack<RawEventList[number]['selected_from_entry']>, 'profile' | 'book'> & {
-    profile: Unpack<Unpack<RawEventList[number]['selected_from_entry']>['profile']> | null;
-    book: (Omit<Unpack<Unpack<RawEventList[number]['selected_from_entry']>['book']>, 'author'> & {
-      author: Unpack<Unpack<Unpack<RawEventList[number]['selected_from_entry']>['book']>['author']> | null;
+  selected_from_entry: (Omit<RawEntry, 'profile' | 'book'> & {
+    profile: Unpack<RawEntry['profile']> | null;
+    book: (Omit<RawBook, 'author'> & {
+      author: Unpack<RawBook['author']> | null;
     }) | null;
   }) | null;
 };
